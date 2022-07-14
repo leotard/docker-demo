@@ -9,14 +9,13 @@ pipeline {
         registryUrl 'https://hub.docker.com/repository/docker/leotardn/jenkins-pipeline'
         registryCredentialsId 'dockerhub'
     }
-}
-  tools {nodejs "node" }
-    stage('Test') {
+  }
+  stage('Test') {
       steps {
         sh 'npm test'
       }
-    }
-    stage('Building image') {
+   }
+   stage('Building image') {
       steps{
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
