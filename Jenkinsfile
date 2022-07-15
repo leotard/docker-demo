@@ -18,6 +18,8 @@ pipeline {
    }
    stage('Building image') {
       steps{
+        sh 'sudo chown root:docker /var/run/docker.sock'
+        sh 'sudo chmod g+w /var/run/docker.sock'
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
