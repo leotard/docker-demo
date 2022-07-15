@@ -18,30 +18,32 @@ pipeline {
                 sh 'npm test'
             }
             
+            
         }
-        stage('Build Deploy Cleanup'){
-            agent any
-            stage('Building image') {
-                steps{
-                    script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                    }
-                }
-            }
-            stage('Deploy Image') {
-                steps{
-                    script {
-                        docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                        }
-                    }
-                }
-            }
-            stage('Remove Unused docker image') {
-                steps{
-                    sh "docker rmi $registry:$BUILD_NUMBER"
+        stage('Building image') {
+            agent jenkins-slave-1
+            steps{
+                script {
+                dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
             }
         }
+        stage('Deploy Image') {
+            agent jenkins-slave-1
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Remove Unused docker image') {
+            agent jenkins-slave-1
+            steps{
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+        
     }
 }
