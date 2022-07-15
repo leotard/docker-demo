@@ -7,7 +7,6 @@ pipeline {
   agent {
   dockerfile {
         filename 'Dockerfile'
-        registryUrl 'leotardn/jenkins-pipeline'
         registryCredentialsId 'dockerhub'
     }
   }
