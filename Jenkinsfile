@@ -8,6 +8,7 @@ pipeline {
   dockerfile {
         filename 'Dockerfile'
         registryCredentialsId 'dockerhub'
+        args '-v /var/run/docker.sock:/var/run/docker.sock'
     }
   }
   stages {
