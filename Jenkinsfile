@@ -21,7 +21,7 @@ pipeline {
             
         }
         stage('Building image') {
-            agent jenkins-slave-1
+            agent {label 'jenkins-slave-1'}
             steps{
                 script {
                 dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -29,7 +29,7 @@ pipeline {
             }
         }
         stage('Deploy Image') {
-            agent jenkins-slave-1
+            agent {label 'jenkins-slave-1'}
             steps{
                 script {
                     docker.withRegistry( '', registryCredential ) {
@@ -39,7 +39,7 @@ pipeline {
             }
         }
         stage('Remove Unused docker image') {
-            agent jenkins-slave-1
+            agent {label 'jenkins-slave-1'}
             steps{
                 sh "docker rmi $registry:$BUILD_NUMBER"
             }
