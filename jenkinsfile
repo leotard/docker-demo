@@ -4,13 +4,8 @@ pipeline {
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
-  agent {
-    dockerfile {
-        registryUrl 'https://hub.docker.com/repository/docker/leotardn/jenkins-pipeline'
-        registryCredentialsId 'dockerhub'
-        args '-p 3000:3000'
-    }
-  }
+  agent {dockerfile true }
+  stages {
   stage('Test') {
       steps {
         sh 'npm test'
