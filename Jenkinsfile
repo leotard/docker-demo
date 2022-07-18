@@ -11,7 +11,7 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     registryCredentialsId 'dockerhub'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    args '-p 3000:3000'
                 }
             }
             steps {
