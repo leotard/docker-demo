@@ -47,7 +47,7 @@ pipeline {
                             # cleanup
                             docker stop app1
                             docker rm app1
-                        else if [ "$(docker ps -aq -f status=exited -f app1)" ]; then
+                        elif [ "$(docker ps -aq -f status=exited -f app1)" ]; then
                             # cleanup
                             docker rm app1
                         fi
