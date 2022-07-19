@@ -46,9 +46,10 @@ pipeline {
                         if [ "$(docker ps -aq -f status=running -f name=app1)" ]; then
                             # cleanup
                             docker stop app1
+                            docker rm app1
                         fi
                         # run your container
-                        docker run -p 3000:3000 --rm -d --name app1 $registry:latest
+                        docker run -p 3000:3000 -d --name app1 $registry:latest
                     fi
                 '''.stripIndent())
             }
