@@ -41,15 +41,9 @@ pipeline {
         stage('Remove Unused docker image') {
             agent {label 'jenkins-slave-1'}
             steps{
-                sh(returnStdout: true, script: '''#!/bin/bash
-                    if [ ! "$(docker ps -q -f name=app1)" ]; then
-                        if [ "$(docker ps -aq -f status=running -f name=app1)" ]; then
-                            # cleanup
-                            docker stop app1
-                        fi
-                    fi
-                '''.stripIndent())
-                dockerImage.run("-p 3000:3000 -d --rm --name app1 $registry:latest")
+                sh 'docker ps -f name=app1 -q | xargs --no-run-if-empty docker container stop'
+                sh 'docker container ls -a -fname=app1 -q | xargs -r docker container rm'
+                sh 'docker run -p 3000:3000 --rm -d --name app1 $registry:latest'
             }
         }
     }
