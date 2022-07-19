@@ -11,7 +11,6 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     registryCredentialsId 'dockerhub'
-                    args '-p 3000:3000'
                 }
             }
             steps {
@@ -42,7 +41,8 @@ pipeline {
         stage('Remove Unused docker image') {
             agent {label 'jenkins-slave-1'}
             steps{
-                dockerImage.withRun('-p 3000:3000'){}
+                sh "docker stop $registry:latest"
+                sh "docker run -p 3000:3000 --rm -d $registry:latest"
             }
         }
         
