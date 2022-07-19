@@ -42,12 +42,12 @@ pipeline {
             agent {label 'jenkins-slave-1'}
             steps{
                 sh(returnStdout: true, script: '''#!/bin/bash
-                    if [ ! "$(docker ps -q -f app1)" ]; then
-                        if [ "$(docker ps -aq -f status=running -f app1)" ]; then
+                    if [ ! "$(docker ps -q -f name=app1)" ]; then
+                        if [ "$(docker ps -aq -f status=running -f name=app1)" ]; then
                             # cleanup
                             docker stop app1
                             docker rm app1
-                        elif [ "$(docker ps -aq -f status=exited -f app1)" ]; then
+                        elif [ "$(docker ps -aq -f status=exited -f name=app1)" ]; then
                             # cleanup
                             docker rm app1
                         fi
