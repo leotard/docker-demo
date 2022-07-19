@@ -33,8 +33,8 @@ pipeline {
             steps{
                 script {
                     docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push()
-                    dockerImage.push('latest')
+                        dockerImage.push()
+                        dockerImage.push('latest')
                     }
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
         stage('Remove Unused docker image') {
             agent {label 'jenkins-slave-1'}
             steps{
-                sh "docker rmi $registry:$BUILD_NUMBER"
+                dockerImage.withRun('-p 3000:3000'){}
             }
         }
         
